@@ -27,7 +27,7 @@ function startCluster(options) {
   	startWorkers();
   	startServerStatsReport();
   } else {
-  	startWorker(options.serverPort);
+  	startWorker(options.serverPort, options.queueName);
   }
 }
  
@@ -43,14 +43,14 @@ function startWorkers() {
   console.log('microservice ready!');
 }
  
-function startWorker(serverPort) {
+function startWorker(serverPort, queueName) {
   	openMQChannel().
-    then(_.partial(startWebServer, serverPort));
+    then(_.partial(startWebServer, serverPort, queueName));
  
     startWorkerStatsReport();
 }
  
-function startWebServer(messageChannel, serverPort) {
+function startWebServer(messageChannel, serverPort, queueName) {
   console.log('starting web server');
   var http = require('http');
  
