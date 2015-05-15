@@ -1,0 +1,34 @@
+{
+  "name": "hpms",
+  "version": "1.0.0",
+  "description": "High Performance MicroService",
+  "main": "http.server.js",
+  "dependencies": {
+    "amqplib": "^0.3.2",
+    "lodash": "^3.8.0",
+    "q": "^1.4.0",
+    "yargs": "^3.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gardere/hpms.git"
+  },
+  "keywords": [
+    "message",
+    "queue",
+    "high",
+    "performance",
+    "http",
+    "server"
+  ],
+  "author": "Mathieu Gardere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gardere/hpms/issues"
+  },
+  "homepage": "https://github.com/gardere/hpms"
+}
