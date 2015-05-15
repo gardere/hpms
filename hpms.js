@@ -45,17 +45,17 @@ function startWorkers() {
  
 function startWorker(options) {
   	openMQChannel(options.mqServerAddress).
-    then(_.partial(startWebServer, options.serverPort, options.queueName));
+    then(_.partial(startWebServer, options));
  
     startWorkerStatsReport();
 }
  
-function startWebServer(messageChannel, serverPort, queueName) {
-  console.log('starting web server');
+function startWebServer(options, messageChannel) {
+  console.log('starting web server on port ' + options.serverPort);
   var http = require('http');
+  var queueName = options.queueName;
  
   var server = http.createServer(function(req, res) {
- 
     var msg = req.url.substring(1);
     messageChannel.assertQueue(queueName);
     messageChannel.sendToQueue(queueName, new Buffer(msg));
@@ -65,7 +65,7 @@ function startWebServer(messageChannel, serverPort, queueName) {
  
     nbrOfRequestsServed++;
   });
-  server.listen(serverPort);
+  server.listen(options.serverPort);
 }
  
 cluster.on('exit', function(worker) {

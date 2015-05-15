@@ -19,5 +19,6 @@ var argv = require('yargs')
 
 require('./hpms.js').startCluster({
   serverPort: argv.p,
-  mqServerAddress: argv.m
+  mqServerAddress: argv.m,
+  queueName: argv.q
 });
