@@ -8,10 +8,10 @@ var queueName = 'events';
 var nbrOfRequestsServed = 0;
  
  
-function openMQChannel() {
+function openMQChannel(options) {
   var deferred = q.defer();
  
-  amqplib.connect('amqp://localhost', function(err, conn) {
+  amqplib.connect(options.mqServerAddress, function(err, conn) {
     if (err != null) throw err;
     conn.createChannel(function(err, channel) {
       if (err != null) throw err;
@@ -27,7 +27,7 @@ function startCluster(options) {
   	startWorkers();
   	startServerStatsReport();
   } else {
-  	startWorker(options.serverPort, options.queueName);
+  	startWorker(options);
   }
 }
  
@@ -43,9 +43,9 @@ function startWorkers() {
   console.log('microservice ready!');
 }
  
-function startWorker(serverPort, queueName) {
-  	openMQChannel().
-    then(_.partial(startWebServer, serverPort, queueName));
+function startWorker(options) {
+  	openMQChannel(options.mqServerAddress).
+    then(_.partial(startWebServer, options.serverPort, options.queueName));
  
     startWorkerStatsReport();
 }
@@ -68,12 +68,10 @@ function startWebServer(messageChannel, serverPort, queueName) {
   server.listen(serverPort);
 }
  
- 
 cluster.on('exit', function(worker) {
   console.log('Worker ' + worker.id + ' died :(');
   cluster.fork();
 });
- 
  
 function startWorkerStatsReport() {
 	//Report stats every  minute
