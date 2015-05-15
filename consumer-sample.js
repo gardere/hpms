@@ -5,7 +5,7 @@ var mqConsumer = require('./mq-consumer.js');
 mqConsumer.startConsumer({
 	mqServerAddress: 'amqp://localhost',
 	queueName: 'events',
-	messagePreprocessor: function (message) {
+	messageProcessor: function (message) {
 		try {
 			return JSON.parse(decodeURIComponent(message));
 		} catch (err) {

@@ -36,8 +36,8 @@ function ConsumerProcess(options) {
   var messageReceived = function(message) {
     var messageContent = message.content.toString();
     try {
-      if (_options.messagePreprocessor) {
-        messageContent = _options.messagePreprocessor(messageContent);
+      if (_options.messageProcessor) {
+        messageContent = _options.messageProcessor(messageContent);
       }
       self.emit('message_received', messageContent);
       _channel.ack(message);
